@@ -15,25 +15,19 @@ int opt;
 char *var;
 int ret, status;
 char *argg[] = {"./hand", argv[2], argv[3], NULL};
-
 while ((opt = getopt(argc, argv, "-:p:v:")) != -1)
+
 {
 switch (opt)
-{ //if (fork ==0)
+{ if (fork ==0)
 
-case 'p': //perecentage
-
-       //extern char **environ;
-// printf( "PID-%d\n", getpid());
-     //if(fork() == 0)
-    //char *argg[] = {"./hand", argv[1], argv[2], NULL}; 
+case 'p':  //percentage
   
-         execv("./hand", argg);
-       
-//var = optarg;
-//i = atoi(var);
-
-//printf("p=%s\n", var);
+//if (fork() == 0)
+{
+         execvp("./hand", argg);
+	 exit(127);
+}	 
        break;
 
 case 'v': //eierbose
@@ -41,32 +35,36 @@ case 'v': //eierbose
        j = atoi(var);
        for(t=0; t<j; t++)
        {
-           if(fork() == 0)
+         pid = fork();
+           if (waitpid(pid, &status, 0) >0)
 	       {
-	            printf ("PID-%d returned\n ", getpid());
-		         exit(0);
+	       if (WIFEXITED(status) && WEXITSTATUS(status))
+	        {
+		 if (WEXITSTATUS(status) == 127)
+		 {
+		 }
+		 else
+		 {
+		  if (WEXITSTATUS(status) <= atoi(argv[2]))
+		  {
+		   
+	            printf ("PID-%d returned success ", getpid());
+		    }
+		    else
+		    printf ("PID-%d returened faiuerr", getpid());
+}
+}
+}
+
+	//	         exit(0);
 			      }
-			           }
-				        for(t=0;t<j;t++)
+			      
+			           
+			        for(t=0;t<j;t++)
 					     wait(NULL);
 
 					     
 printf("created %s process\n", optarg);
-
-   //if (fork() == 0)
-    //t= atoi(argv[2]);
-  //   q
-  //   for (i = 0; i < t; i++)
-  //
-
-//{
-     // q
-     // if(fork() == 0)
-   // printf ("PID-%d returned\n ", getpid());
-    //}
-    //for(i=0; i < atoi(argv[1]); i++)
-      //wait(NULL);
-      //execv("./hand", &argv[1]);
         break;
 case 1:
     var = optarg;
@@ -81,14 +79,13 @@ case 1:
      }
      for(t=0;t<num;t++)
      wait(NULL);
-
-
-//printf("num of trials %s\n", optarg);
 break;
 	}
 	}
-	return 0;
+	}
+	//}
+	//return 0;
 		
 
-}
+//}
 
